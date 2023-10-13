@@ -17,8 +17,13 @@ namespace RickAndMorty.Data
     
         public RickAndMortyContext() : base("name=RickAndMortyContext")
         {
+            // Database.SetInitializer<RickAndMortyContext>(new DropCreateDatabaseIfModelChanges<RickAndMortyContext>());
+
+            //Database.SetInitializer<RickAndMortyContext>(new DropCreateDatabaseAlways<RickAndMortyContext>());
+            
         }
 
         public System.Data.Entity.DbSet<RickAndMorty.Models.Episode> Episodes { get; set; }
+        public System.Data.Entity.DbSet<RickAndMorty.Models.EpisodeCharacter> EpisodeCharacters { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Text.Json;
 using RickAndMorty.Data;
+using RickAndMorty.Migrations;
 
 namespace RickAndMorty.Negocio
 {
@@ -25,25 +26,15 @@ namespace RickAndMorty.Negocio
         private RickAndMortyContext db = new RickAndMortyContext();
 
         static HttpWebRequest peticion;
-        public async Task<bool> Load()
+        
+
+        public void BorrarEpisodios()
         {
-            var client = new HttpClient();
-
-            Respuesta respuesta = await client.GetFromJsonAsync<Respuesta>("https://rickandmortyapi.com/api/episode");
-
-            var a = respuesta;
-
-
-            //db.Episodes.Add(a);
-            //db.SaveChanges();
-
-            //foreach(Episode episode in espisodes)
-            //{
-
-
-            //}
-            return true;
+            db.EpisodeCharacters.RemoveRange(db.EpisodeCharacters);
+            db.Episodes.RemoveRange(db.Episodes);
+            db.SaveChanges();
         }
+
 
         public void Load1()
         {
@@ -61,18 +52,21 @@ namespace RickAndMorty.Negocio
 
             var respuesta1 = JsonSerializer.Deserialize<Respuesta>(text);
 
-            
-
             foreach (Episode episode in respuesta1.results)
             {
                 db.Episodes.Add(episode);
-                db.SaveChanges();
 
+                foreach (string urlepisodeCharacter in episode.characters)
+                {
+                    EpisodeCharacter episodeCharacter = new EpisodeCharacter();
+                    episodeCharacter.Idepisode = episode.id;
+                    episodeCharacter.Character = urlepisodeCharacter;
+                    db.EpisodeCharacters.Add(episodeCharacter);
+                }
+
+                db.SaveChanges();
             }
 
-
         }
-
-
     }
 }

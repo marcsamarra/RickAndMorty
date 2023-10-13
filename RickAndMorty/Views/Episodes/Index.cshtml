@@ -6,7 +6,7 @@
     ViewBag.Title = "Episodes";
 }
 
-<h2>Espisodes</h2>
+<h2>Episodes</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -17,7 +17,7 @@
     columns.Add(foo => foo.name).SetWidth(200).Filterable(true).Sortable(true);
 
     columns.Add(foo => foo.air_date).Sortable(true).SetWidth(100);
-    columns.Add(foo => foo.espisode).SetWidth(50).Sortable(true);
+    columns.Add(foo => foo.episode).SetWidth(50).Sortable(true);
     columns.Add(foo => foo.url).SetWidth(50);
     columns.Add(foo => foo.created).SetWidth(100);
 

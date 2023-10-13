@@ -48,7 +48,7 @@ namespace RickAndMorty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,air_date,espisode,url,created")] Episode episode)
+        public ActionResult Create([Bind(Include = "id,name,air_date,episode,url,created")] Episode episode)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace RickAndMorty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,air_date,espisode,url,created")] Episode episode)
+        public ActionResult Edit([Bind(Include = "id,name,air_date,episode,url,created")] Episode episode)
         {
             if (ModelState.IsValid)
             {
@@ -90,6 +90,14 @@ namespace RickAndMorty.Controllers
             }
             return View(episode);
         }
+
+        public ActionResult Borrar()
+        {
+            new EpisodeBL().BorrarEpisodios();
+
+            return RedirectToAction("Index");
+        }
+
 
         // GET: Episodes/Delete/5
         public ActionResult Delete(long? id)
