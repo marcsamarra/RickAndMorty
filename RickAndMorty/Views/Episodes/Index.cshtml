@@ -1,0 +1,31 @@
+﻿@model IEnumerable<RickAndMorty.Models.Episode>
+
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Episodes";
+}
+
+<h2>Espisodes</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@Html.Grid(Model).Columns(columns =>
+{
+
+    columns.Add(foo => foo.name).SetWidth(200).Filterable(true).Sortable(true);
+
+    columns.Add(foo => foo.air_date).Sortable(true).SetWidth(100);
+    columns.Add(foo => foo.espisode).SetWidth(50).Sortable(true);
+    columns.Add(foo => foo.url).SetWidth(50);
+    columns.Add(foo => foo.created).SetWidth(100);
+
+    columns.Add().RenderValueAs(o => Html.ActionLink("Editar", "Edit", new { id = o.id })).Encoded(false).Sanitized(false).SetWidth(50);
+    columns.Add().RenderValueAs(o => Html.ActionLink("Detalles", "Details", new { id = o.id })).Encoded(false).Sanitized(false).SetWidth(50);
+    columns.Add().RenderValueAs(o => Html.ActionLink("Borrar", "Delete", new { id = o.id })).Encoded(false).Sanitized(false).SetWidth(50);
+
+
+}).WithPaging(15)
+
+
