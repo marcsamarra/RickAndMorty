@@ -1,4 +1,4 @@
-﻿@model RickAndMorty.Models.Episode
+﻿@model RickAndMorty.Models.EpisodeViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -52,6 +52,52 @@
 
     </dl>
 </div>
+<h2>Characters</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <td>
+                <b>Name</b>
+            </td>
+            <td>
+                <b>Gender</b>
+            </td>
+            <td>
+                <b>Spceies</b>
+            </td>
+            <td>
+                <b>Status</b>
+            </td>
+
+        </tr>
+   
+    </thead>
+
+
+    @foreach (var item in Model.characters)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.species)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                <img src="@item.image" class="col-md-pull-1" width="100" />
+            </td>
+            
+        </tr>
+
+
+    }
+</table>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")

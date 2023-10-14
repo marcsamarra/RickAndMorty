@@ -26,7 +26,6 @@ namespace RickAndMorty.Negocio
         private RickAndMortyContext db = new RickAndMortyContext();
 
         static HttpWebRequest peticion;
-        
 
         public void BorrarEpisodios()
         {
@@ -35,9 +34,28 @@ namespace RickAndMorty.Negocio
             db.SaveChanges();
         }
 
+        public Character LoadCharacter(string CharacterURL)
+        {
+            Stream streamRespuesta;
+            StreamReader reader;
+            WebResponse respuesta;
+
+            peticion = (HttpWebRequest)HttpWebRequest.Create(CharacterURL);
+
+            respuesta = peticion.GetResponse();
+
+            streamRespuesta = respuesta.GetResponseStream();
+            reader = new StreamReader(streamRespuesta);
+            string text = reader.ReadToEnd();
+
+            var respuesta1 = JsonSerializer.Deserialize<Character>(text);
+            return respuesta1;
+        }
 
         public void Load1()
         {
+            BorrarEpisodios();
+
             Stream streamRespuesta;
             StreamReader reader;
             WebResponse respuesta;
@@ -54,6 +72,7 @@ namespace RickAndMorty.Negocio
 
             foreach (Episode episode in respuesta1.results)
             {
+                episode.idEpisode = episode.id;
                 db.Episodes.Add(episode);
 
                 foreach (string urlepisodeCharacter in episode.characters)
@@ -66,6 +85,22 @@ namespace RickAndMorty.Negocio
 
                 db.SaveChanges();
             }
+
+        }
+
+        internal List<Character> LoadCharacters(long id)
+        {
+
+            List<Character> listCharacter = new List<Character>();
+
+            var episodeCharacters = db.EpisodeCharacters.Where(o => o.Idepisode == id);
+
+            foreach (EpisodeCharacter episodeCharacter in episodeCharacters)
+            {
+                listCharacter.Add(LoadCharacter(episodeCharacter.Character));
+            }
+
+            return listCharacter;
 
         }
     }
